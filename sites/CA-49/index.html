@@ -3,134 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- TODO: Change the title to your app name and your name -->
-  <title>HeartAngel | Weiting (Catherine) Wang </title>
-
-  <!-- Shared styles — gives you navigation arrows and CAC CSS variables -->
+  <title>HeartAngel | Catherine Wang | CA-49</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../assets/css/shared.css">
-
   <style>
-    /*
-     * TODO: Add your custom styles here. Go wild — this is YOUR page!
-     *
-     * You can use Congressional App Challenge colors with CSS variables:
-     *   var(--HA-navy)  → #1E3A8A
-     *   var(--HA-blue)  → #3B82F6
-     *   var(--HA-light blue)  → #EFF6FF
-     *   var(--HA-red) → #EF4444
-     *
-     * Or use completely your own palette. It's up to you!
-     */
+    :root {
+      --bg-dark: #020617;
+      --accent-blue: #60a5fa;
+      --accent-coral: #f87171;
+      --glass-bg: rgba(15, 23, 42, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.08);
+    }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    ::-webkit-scrollbar { 
+      width: 8px; 
+    }
+    ::-webkit-scrollbar-track { 
+      background: var(--bg-dark); 
+    }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(var(--accent-blue), var(--accent-coral)); 
+      border-radius: 10px; 
+    }
+
     body {
-      font-family: system-ui, -apple-system, sans-serif;
-      color: #333;
-      background: #f9fafc;
+      font-family: 'Inter', sans-serif;
+      color: #f1f5f9;
+      background: linear-gradient(-45deg, #020617, #0f172a, #1e3a8a, #020617);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 4rem 2rem 3rem;
+      padding: 8rem 2rem 5rem;
     }
 
-    header { text-align: center; margin-bottom: 3rem; }
-    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+
+    header h1 {
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--accent-blue), #fff, var(--accent-coral));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.3));
+    }
+
+    .header-subtitle {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.2rem;
+      text-transform: uppercase;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+
+    .district-tag {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
+    }
 
     section {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
     }
 
-    h2 { font-size: 1.4rem; margin-bottom: 1rem; }
-    p { line-height: 1.7; margin-bottom: 1rem; }
+    section:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
 
-    .video iframe {
+    h2 {
+      font-size: 1.8rem;
+      color: var(--accent-blue);
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    em { color: var(--accent-coral); font-style: normal; font-weight: 600; }
+    strong { color: #fff; }
+
+    .tech-pill {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: rgba(96, 165, 250, 0.1);
+      color: var(--accent-blue);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    .video-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+    }
+
+    iframe {
       width: 100%;
       aspect-ratio: 16 / 9;
+      display: block;
       border: none;
-      border-radius: 8px;
+    }
+
+    .app-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: linear-gradient(45deg, var(--accent-blue), #2563eb);
+      color: white !important;
+      border-radius: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .app-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    .back-to-showcase {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      color: white !important;
+      font-weight: 600;
+      z-index: 100;
+      text-decoration: none;
     }
 
     footer {
       text-align: center;
-      padding: 2rem;
-      color: #999;
-      font-size: 0.9rem;
+      padding: 5rem 0;
+      opacity: 0.5;
     }
 
-    footer a { color: var(--cac-red); }
+    @media (min-width: 768px) {
+      .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Back button — links to the main showcase -->
-  <a href="../../" class="back-to-showcase">&larr; Back to Showcase</a>
+
+  <a href="../../" class="back-to-showcase">← Showcase</a>
 
   <div class="container">
+    
     <header>
-      <!-- TODO: Replace with your name -->
-      <h1>Catherine Wang</h1>
-      <!-- Student • Aspiring Developer • Passionate about using technology to save lives -->
-      <p>Empowering bystanders to act in emergencies through real-time CPR guidance and life-saving technology</p>
+      <div class="header-subtitle">Catherine Wang Presents</div>
+      <h1>HeartAngel</h1>
+      <span class="district-tag">CA-49 District Winner</span>
     </header>
 
-    <section>
-      <!-- TODO: Tell us about yourself -->
-      <h2>About Me</h2>
-      <p>Hi, I am Catherine, a high school student passionate about science, medicine, and technology. I enjoy combining coding and healthcare to create projects that can make a real-world impact. HeartAngel was developed from my desire to improve emergency response and help people take action during critical moments by providing real-time CPR guidance and connecting them to life-saving resources.</p>
-    </section>
+    <div class="grid-layout">
+      <section>
+        <h2>About Me</h2>
+        <p>I am a high school student bridging the gap between <strong>Medicine and Computer Science</strong>. HeartAngel is the result of my mission to make life-saving response accessible to everyone.</p>
+      </section>
+
+      <section>
+        <h2>The Vision</h2>
+        <p><em>Giving Life Another Chance.</em></p>
+        <p>A mobile tool providing real-time CPR guidance and connecting bystanders to the nearest AED devices.</p>
+        <span class="tech-pill">Flutter / Dart</span>
+      </section>
+    </div>
 
     <section>
-      <!-- TODO: Tell us about your app -->
-      <h2>HeartAngel</h2>
-      <p><em>Giving Life Another Chance</em></p>
-      <p>HeartAngel is a mobile application designed to assist users during real-life cardiac arrest emergencies, while also offering a substantial tool for practicing CPR on a day-to-day basis with live compression feedback based on depth and speed accuracy. </p>
-      <p>This app is designed for anyone — especially bystanders who may not have formal medical training — so they can confidently take action in an emergency. It also aims to support a connected response system by linking users to nearby trained responders and AED devices during a real-life emergency. All together, HeartAngel bridges the gap of bystander unreadiness, limited access to emergency tools, and the need for faster, more coordinated responses during life-threatening situations. </p>
-      <p>HeartAngel was built using Flutter and Dart, allowing it to run across different platforms while providing a smooth and responsive user experience.</p>
-    </section>
-
-    <section class="video">
-      <!-- TODO: Replace YOUR_VIDEO_ID with your YouTube video ID.
-           For example, if your video URL is https://www.youtube.com/watch?v=abc123
-           then your video ID is "abc123" -->
-      <h2>Demo</h2>
-      <iframe
-        src="https://www.youtube.com/embed/l6hRitE_LRQ"
-        title="App Demo Video"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-
-      <!-- Alternative: Self-hosted video (NOT recommended — use YouTube/Vimeo instead
-           to avoid bloating the repository)
-      <video controls width="100%">
-        <source src="assets/demo.mp4" type="video/mp4">
-        Your browser does not support the video element.
-      </video>
-      -->
+      <h2>Innovation</h2>
+      <p>HeartAngel uses real-time haptic and visual feedback to ensure CPR depth and speed are accurate. This bridges the gap of bystander unreadiness, ensuring that anyone can save a life during a cardiac emergency.</p>
     </section>
 
     <section>
-      <!-- TODO: Add any relevant links -->
-      <h2>Links</h2>
-      <p>
-        <a href="https://apps.apple.com/us/app/heartangel/id6743984944">Live App</a>
-      </p>
+      <h2>App Demo</h2>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/l6hRitE_LRQ" allowfullscreen></iframe>
+      </div>
     </section>
+
+    <section style="text-align: center;">
+      <h2>Ready to Save Lives?</h2>
+      <p>Download the official application today.</p>
+      <a href="https://apps.apple.com/us/app/heartangel/id6743984944" class="app-link" target="_blank">
+        Download on App Store →
+      </a>
+    </section>
+
   </div>
 
   <footer>
-    <p>Congressional App Challenge &bull; <a href="../../">Back to Showcase</a></p>
+    <p>Congressional App Challenge &bull; <a href="../../" style="color: inherit; text-decoration: none;">Return Home</a></p>
   </footer>
 
-  <!-- Navigation script — enables arrow key navigation. Do NOT remove this. -->
   <script src="../../assets/js/nav.js" data-root="../../"></script>
+
 </body>
 </html>
