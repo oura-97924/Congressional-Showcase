@@ -403,5 +403,20 @@
   "district": "OR-01",
   "state": "OR",
   "tags": ["education", "ai"]
+},
+{
+  "slug": "NY-03",
+  "name": "Michael Cole",
+  "appName": "HealthBridge",
+  "description": "A multilingual platform helping uninsured and underinsured people find healthcare resources, clinics, and coverage options.",
+  "thumbnail": "sites/NY-03/thumbnail.png",
+  "location": {
+    "lat": 40.7128,
+    "lng": -74.0060,
+    "label": "New York, NY"
+  },
+  "district": "NY-03",
+  "state": "NY",
+  "tags": ["health", "education", "community"]
 }
 ]

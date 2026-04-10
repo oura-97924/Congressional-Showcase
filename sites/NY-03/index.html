@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthBridge | Michael Cole</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5ebe0;
+      --card: rgba(250, 246, 241, 0.72);
+      --card-solid: #faf6f1;
+      --text: #2d1810;
+      --text-secondary: #5c4033;
+      --text-muted: #8b7355;
+      --accent-dark: #5c3d2e;
+      --accent-mid: #8a5a3e;
+      --accent-light: #c8956c;
+      --blue: #1a75ff;
+      --border: rgba(92, 61, 46, 0.1);
+      --border-strong: rgba(92, 61, 46, 0.18);
+      --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .ticker-wrap {
+      background: #2d1810;
+      overflow: hidden;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 100;
+    }
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: ticker 55s linear infinite;
+      will-change: transform;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      color: rgba(245, 235, 224, 0.82);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .ticker-dot { color: #c8956c; margin: 0 1.4rem; font-size: 9px; }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .island-wrap {
+      display: flex;
+      justify-content: center;
+      padding-top: 3rem;
+      position: relative;
+      z-index: 10;
+    }
+    .island {
+      background: #2d1810;
+      color: rgba(245,235,224,0.9);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.4rem;
+      border-radius: 100px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      animation: islandIn 0.9s var(--spring) both;
+      cursor: default;
+      transition: padding 0.5s var(--spring), gap 0.4s var(--ease-out), background 0.3s;
+      overflow: hidden;
+      position: relative;
+    }
+    .island:hover {
+      padding: 0.5rem 2rem;
+      background: #3d2215;
+    }
+    .island-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #c8956c;
+      flex-shrink: 0;
+      animation: pulse 2s ease infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+    @keyframes islandIn {
+      from { opacity: 0; transform: scale(0.6) translateY(-10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .hero {
+      padding: 2.5rem 2rem 5rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 700px;
+      height: 500px;
+      background: radial-gradient(ellipse at center, rgba(200,149,108,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-logo-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+      animation: logoIn 1s var(--spring) 0.15s both;
+    }
+    .hero-logo-bg {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.6), rgba(250,246,241,0.3));
+      border: 1px solid rgba(255,255,255,0.7);
+      border-radius: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(92,61,46,0.15), 0 2px 0 rgba(255,255,255,0.8) inset;
+      transition: transform 0.5s var(--spring), box-shadow 0.4s var(--ease-out);
+    }
+    .hero-logo-bg:hover {
+      transform: scale(1.04) translateY(-4px);
+      box-shadow: 0 32px 80px rgba(92,61,46,0.22), 0 2px 0 rgba(255,255,255,0.8) inset;
+    }
+    .hero-logo-bg img {
+      width: 92px;
+      height: 92px;
+      object-fit: contain;
+    }
+    @keyframes logoIn {
+      from { opacity: 0; transform: scale(0.7) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(4rem, 10vw, 7rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      margin-bottom: 1rem;
+      animation: textIn 0.9s var(--ease-out) 0.25s both;
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 0.01em;
+      margin-bottom: 0.6rem;
+      animation: textIn 0.9s var(--ease-out) 0.35s both;
+    }
+    .hero-names {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      animation: textIn 0.9s var(--ease-out) 0.45s both;
+    }
+    .hero-district {
+      display: inline-block;
+      background: var(--accent-dark);
+      color: rgba(245,235,224,0.9);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      margin-top: 0.75rem;
+      animation: textIn 0.9s var(--ease-out) 0.5s both;
+    }
+    @keyframes textIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stats-strip {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto 0;
+      max-width: 680px;
+      animation: textIn 0.9s var(--ease-out) 0.6s both;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 1.5rem 1rem;
+      position: relative;
+    }
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 25%; height: 50%;
+      width: 1px;
+      background: var(--border-strong);
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .stat-lbl {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    .section-divider.visible { opacity: 1; transform: translateY(0); }
+    .divider-line { flex: 1; height: 1px; background: var(--border-strong); }
+    .divider-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+    }
+
+    .glass-card {
+      background: var(--card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 32px rgba(45,24,16,0.07), 0 1px 0 rgba(255,255,255,0.8) inset;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out),
+                  box-shadow 0.35s ease, border-color 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .glass-card.visible { opacity: 1; transform: translateY(0); }
+    .glass-card:hover {
+      box-shadow: 0 12px 48px rgba(45,24,16,0.12), 0 1px 0 rgba(255,255,255,0.8) inset;
+      border-color: rgba(255,255,255,0.75);
+    }
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+    }
+
+    .card-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.6rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.9rem;
+      letter-spacing: -0.01em;
+    }
+    .card-body {
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .team-member {
+      background: rgba(92,61,46,0.05);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      transition: background 0.25s, border-color 0.25s, transform 0.3s var(--spring);
+    }
+    .team-member:hover {
+      background: rgba(92,61,46,0.09);
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .member-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .member-school {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+    .feature-item {
+      background: rgba(92,61,46,0.04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      transition: background 0.25s, border-color 0.25s, transform 0.35s var(--spring);
+    }
+    .feature-item:hover {
+      background: rgba(92,61,46,0.09);
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .feature-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    .feature-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.1rem;
+    }
+    .tech-tag {
+      background: rgba(92,61,46,0.07);
+      border: 1px solid var(--border-strong);
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.3rem 0.85rem;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.3s var(--spring);
+    }
+    .tech-tag:hover {
+      background: rgba(92,61,46,0.14);
+      transform: translateY(-1px);
+    }
+
+    .video-shell {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      margin-top: 1.25rem;
+      box-shadow: 0 8px 40px rgba(45,24,16,0.16);
+      transition: box-shadow 0.4s;
+    }
+    .video-shell:hover { box-shadow: 0 16px 60px rgba(45,24,16,0.22); }
+    .video-shell iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .award-glass {
+      background: linear-gradient(145deg, #3d2215, #5c3d2e);
+      border: 1px solid rgba(200,149,108,0.25);
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+    }
+    .award-glass.visible { opacity: 1; transform: translateY(0); }
+    .award-glass::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,149,108,0.6), transparent);
+    }
+    .award-glass::after {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(200,149,108,0.2) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .award-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,149,108,0.7);
+      margin-bottom: 0.6rem;
+    }
+    .award-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: rgba(245,235,224,0.95);
+      line-height: 1.25;
+      position: relative;
+      z-index: 1;
+    }
+
+    .partners-row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 1.1rem;
+    }
+    .partner-chip {
+      background: rgba(26,117,255,0.07);
+      border: 1px solid rgba(26,117,255,0.18);
+      color: var(--blue);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.3s var(--spring);
+    }
+    .partner-chip:hover {
+      background: rgba(26,117,255,0.12);
+      transform: translateY(-1px);
+    }
+
+    .links-card {
+      background: var(--card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.55);
+      border-radius: 24px;
+      padding: 2.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s var(--ease-out), transform 0.65s var(--ease-out);
+      box-shadow: 0 4px 32px rgba(45,24,16,0.07), 0 1px 0 rgba(255,255,255,0.8) inset;
+    }
+    .links-card.visible { opacity: 1; transform: translateY(0); }
+    .divider-thin {
+      height: 1px;
+      background: var(--border);
+      margin: 0.5rem 0 1.5rem;
+    }
+    .links-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.8rem 1.8rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      font-family: 'Sora', sans-serif;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: transform 0.35s var(--spring), box-shadow 0.3s ease, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(92,61,46,0.32);
+    }
+    .btn-primary:hover { box-shadow: 0 8px 30px rgba(92,61,46,0.42); }
+    .btn-ghost {
+      background: rgba(92,61,46,0.07);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-strong);
+    }
+    .btn-ghost:hover { background: rgba(92,61,46,0.12); }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+    footer a { color: var(--accent-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 3.5rem; }
+      .stats-strip { gap: 0; }
+      .team-grid, .features-grid { grid-template-columns: 1fr; }
+      .glass-card { padding: 1.75rem; }
+      .links-row { flex-direction: column; }
+      .btn { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <a href="../../" class="back-to-showcase">&larr; Back to Showcase</a>
+
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span class="ticker-item">3,000+ Clinics Nationwide<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">AI-Powered Healthcare Chat<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">18 Languages Supported<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Insurance Coverage Quiz<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">55+ Insurance Providers<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Native iOS App<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Full Offline Mode<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Push Notifications<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Community Events<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Free to Use<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">3,000+ Clinics Nationwide<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">AI-Powered Healthcare Chat<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">18 Languages Supported<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Insurance Coverage Quiz<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">55+ Insurance Providers<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Native iOS App<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Full Offline Mode<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Push Notifications<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Community Events<span class="ticker-dot">◆</span></span>
+      <span class="ticker-item">Free to Use<span class="ticker-dot">◆</span></span>
+    </div>
+  </div>
+
+  <div class="island-wrap">
+    <div class="island">
+      <div class="island-dot"></div>
+      1st Place Winner &nbsp;·&nbsp; NY-03
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-logo-wrap">
+      <div class="hero-logo-bg">
+        <img src="thumbnail.png" alt="HealthBridge">
+      </div>
+    </div>
+    <h1>HealthBridge</h1>
+    <p class="hero-sub">Your Gateway to Healthcare Access</p>
+    <p class="hero-names">Michael Cole &nbsp;·&nbsp; Caren Ye &nbsp;·&nbsp; Emma Ding &nbsp;·&nbsp; Christine Chen</p>
+    <span class="hero-district">NY-03</span>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num" data-target="3000">0</div>
+      <div class="stat-lbl">Clinics</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="55">0</div>
+      <div class="stat-lbl">Insurance Providers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="18">0</div>
+      <div class="stat-lbl">Languages</div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">The Team</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">Who We Are</div>
+      <p class="card-body">Four high school students from New York building technology to make healthcare more accessible for everyone in their communities.</p>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-name">Michael Cole</div>
+          <div class="member-school">Chaminade High School · Glen Head</div>
+        </div>
+        <div class="team-member">
+          <div class="member-name">Caren Ye</div>
+          <div class="member-school">Jericho High School · Jericho</div>
+        </div>
+        <div class="team-member">
+          <div class="member-name">Emma Ding</div>
+          <div class="member-school">Great Neck South High School · Great Neck</div>
+        </div>
+        <div class="team-member">
+          <div class="member-name">Christine Chen</div>
+          <div class="member-school">Hunter College High School · Manhattan</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">The App</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">What We Built</div>
+      <div class="card-title">Bridging Healthcare Gaps Together</div>
+      <p class="card-body">HealthBridge is a multilingual platform connecting uninsured and underinsured people with affordable healthcare resources. Millions of low-income and non-English-speaking families struggle to access care due to a lack of guidance on how to reach it. HealthBridge addresses this critical gap with an AI-powered chat assistant, a searchable clinic database, an insurance coverage quiz, and resources in 18+ languages. Available as an iOS app and a web platform.</p>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">Features</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">What HealthBridge Does</div>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-name">Clinic Finder</div>
+          <div class="feature-desc">3,000+ healthcare facilities searchable by state, specialty, insurance, and language</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">AI Healthcare Chat</div>
+          <div class="feature-desc">AI-powered assistant that searches clinics, insurance providers, and the web in plain language</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Coverage Quiz</div>
+          <div class="feature-desc">Personalized insurance recommendations based on income, household size, state, and age</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Insurance Directory</div>
+          <div class="feature-desc">55+ providers with searchable plans, cost comparisons, and low-income options</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">Native iOS App</div>
+          <div class="feature-desc">SwiftUI app with full offline mode, push notifications, and in-app donations</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-name">18 Languages</div>
+          <div class="feature-desc">Every page and feature fully translated, including English, Spanish, Arabic, Chinese, Hindi, and more</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">Built With</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">Tech Stack</div>
+      <div class="tech-row">
+        <span class="tech-tag">React</span>
+        <span class="tech-tag">TypeScript</span>
+        <span class="tech-tag">Express.js</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">SwiftUI</span>
+        <span class="tech-tag">iOS</span>
+        <span class="tech-tag">Drizzle ORM</span>
+        <span class="tech-tag">TailwindCSS</span>
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">Demo</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">Watch It In Action</div>
+      <div class="video-shell">
+        <iframe
+          src="https://www.youtube.com/embed/IIlGk1cD3Ko"
+          title="HealthBridge Demo"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <div class="award-glass">
+      <div class="award-eyebrow">Recognition</div>
+      <div class="award-title">1st Place Winner, Congressional App Challenge, New York's 3rd Congressional District, represented by Congressman Tom Suozzi.</div>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">Partners</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="glass-card">
+      <div class="card-eyebrow">Organizations We Work With</div>
+      <div class="partners-row">
+        <span class="partner-chip">Glow Community Center</span>
+        <span class="partner-chip">United Cultural Association</span>
+        <span class="partner-chip">Youth Civic Service</span>
+      </div>
+    </div>
+
+    <div class="section-divider">
+      <div class="divider-line"></div>
+      <div class="divider-label">Links</div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="links-card">
+      <div class="card-eyebrow">Find Us</div>
+      <div class="divider-thin"></div>
+      <div class="links-row">
+        <a href="https://github.com/HealthBridgeUS/HealthBridge" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub</a>
+        <a href="https://healthbridgeus.com" class="btn btn-ghost" target="_blank" rel="noopener">Visit HealthBridge</a>
+        <a href="https://apps.apple.com" class="btn btn-ghost" target="_blank" rel="noopener">App Store</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Congressional App Challenge &bull; <a href="../../">Back to Showcase</a></p>
+  </footer>
+
+  <script src="../../assets/js/nav.js" data-root="../../"></script>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.glass-card, .award-glass, .links-card, .section-divider').forEach(el => {
+      observer.observe(el);
+    });
+
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target);
+          const suffix = target >= 1000 ? ',000+' : '+';
+          const display = target >= 1000 ? 3 : target;
+          let start = 0;
+          const step = display / 40;
+          const timer = setInterval(() => {
+            start = Math.min(start + step, display);
+            el.textContent = Math.floor(start) + suffix;
+            if (start >= display) clearInterval(timer);
+          }, 20);
+        });
+        countObserver.unobserve(e.target);
+      });
+    }, { threshold: 0.5 });
+
+    const statsStrip = document.querySelector('.stats-strip');
+    if (statsStrip) countObserver.observe(statsStrip);
+  </script>
+</body>
+</html>
