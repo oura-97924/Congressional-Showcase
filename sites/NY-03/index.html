@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HealthBridge | Michael Cole</title>
-  <link rel="stylesheet" href="../../assets/css/shared.css">
+  <title>HealthBridge | Congressional App Challenge</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/shared.css">
   <style>
     :root {
       --bg: #f5ebe0;
@@ -35,6 +35,30 @@
       color: var(--text);
       min-height: 100vh;
       overflow-x: hidden;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: fixed;
+      top: 1rem; left: 1rem;
+      z-index: 200;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      text-decoration: none;
+      background: rgba(250,246,241,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-strong);
+      padding: 0.45rem 1rem;
+      border-radius: 100px;
+      transition: background 0.2s, transform 0.3s var(--spring);
+    }
+    .back-home:hover {
+      background: rgba(250,246,241,0.95);
+      transform: translateY(-1px);
     }
 
     .ticker-wrap {
@@ -332,12 +356,25 @@
       border-radius: 14px;
       padding: 1rem 1.1rem;
       transition: background 0.25s, border-color 0.25s, transform 0.3s var(--spring);
+      position: relative;
+      overflow: hidden;
     }
     .team-member:hover {
       background: rgba(92,61,46,0.09);
       border-color: var(--border-strong);
       transform: translateY(-2px);
     }
+    .team-member::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      opacity: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,149,108,0.15) 0%, transparent 60%);
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .team-member:hover::after { opacity: 1; }
     .member-name {
       font-size: 0.9rem;
       font-weight: 600;
@@ -362,12 +399,25 @@
       border-radius: 14px;
       padding: 1.1rem 1.2rem;
       transition: background 0.25s, border-color 0.25s, transform 0.35s var(--spring);
+      position: relative;
+      overflow: hidden;
     }
     .feature-item:hover {
       background: rgba(92,61,46,0.09);
       border-color: var(--border-strong);
       transform: translateY(-2px);
     }
+    .feature-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      opacity: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,149,108,0.12) 0%, transparent 60%);
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .feature-item:hover::after { opacity: 1; }
     .feature-name {
       font-size: 0.88rem;
       font-weight: 600;
@@ -519,6 +569,8 @@
       background: linear-gradient(135deg, var(--accent-dark), var(--accent-light));
       color: #fff;
       box-shadow: 0 4px 18px rgba(92,61,46,0.32);
+      position: relative;
+      overflow: visible;
     }
     .btn-primary:hover { box-shadow: 0 8px 30px rgba(92,61,46,0.42); }
     .btn-ghost {
@@ -546,6 +598,135 @@
       .links-row { flex-direction: column; }
       .btn { justify-content: center; }
     }
+
+    /* Cursor */
+    * { cursor: none !important; }
+    #hb-cursor-dot {
+      position: fixed; top: 0; left: 0;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #c8956c;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s var(--spring), height 0.2s var(--spring), background 0.2s ease, opacity 0.2s ease;
+      mix-blend-mode: multiply;
+    }
+    #hb-cursor-ring {
+      position: fixed; top: 0; left: 0;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(200, 149, 108, 0.55);
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.35s var(--spring), height 0.35s var(--spring), border-color 0.25s ease, opacity 0.2s ease;
+    }
+    body:has(a:hover) #hb-cursor-dot,
+    body:has(button:hover) #hb-cursor-dot { width: 10px; height: 10px; background: #5c3d2e; }
+    body:has(a:hover) #hb-cursor-ring,
+    body:has(button:hover) #hb-cursor-ring { width: 48px; height: 48px; border-color: rgba(92,61,46,0.35); }
+
+    .hb-click-burst { position: fixed; pointer-events: none; z-index: 99997; transform: translate(-50%, -50%); }
+    .hb-click-burst .hb-ring {
+      position: absolute; top: 50%; left: 50%;
+      width: 0; height: 0; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      border: 1.5px solid #c8956c;
+      animation: hb-burst-ring 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    .hb-click-burst .hb-ring:nth-child(2) { animation-delay: 0.06s; border-color: rgba(200,149,108,0.5); }
+    .hb-click-burst .hb-ring:nth-child(3) { animation-delay: 0.13s; border-color: rgba(200,149,108,0.25); }
+    .hb-click-burst .hb-particle {
+      position: absolute; top: 50%; left: 50%;
+      width: 3px; height: 3px; border-radius: 50%;
+      background: #c8956c; transform-origin: center;
+      animation: hb-burst-particle 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+    }
+    @keyframes hb-burst-ring {
+      0%   { width: 0; height: 0; opacity: 0.9; }
+      100% { width: 64px; height: 64px; opacity: 0; }
+    }
+    @keyframes hb-burst-particle {
+      0%   { transform: translate(-50%,-50%) rotate(var(--angle)) translateX(0) scale(1); opacity: 1; }
+      100% { transform: translate(-50%,-50%) rotate(var(--angle)) translateX(28px) scale(0); opacity: 0; }
+    }
+
+    /* Scroll progress */
+    #hb-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, #5c3d2e, #c8956c, #5c3d2e);
+      background-size: 200% 100%;
+      animation: progressShimmer 3s linear infinite;
+      z-index: 99999; pointer-events: none;
+    }
+    @keyframes progressShimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    /* Grain */
+    #hb-grain {
+      position: fixed; inset: -50%; width: 200%; height: 200%;
+      pointer-events: none; z-index: 99990; opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 128px 128px;
+      animation: grainShift 0.08s steps(1) infinite;
+    }
+    @keyframes grainShift {
+      0%  { transform: translate(0,0); }     10% { transform: translate(-2%,-3%); }
+      20% { transform: translate(3%,1%); }   30% { transform: translate(-1%,4%); }
+      40% { transform: translate(4%,-2%); }  50% { transform: translate(-3%,3%); }
+      60% { transform: translate(2%,-4%); }  70% { transform: translate(-4%,1%); }
+      80% { transform: translate(1%,-1%); }  90% { transform: translate(3%,4%); }
+    }
+
+    /* Ambient orbs */
+    .hb-orb {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 0;
+      filter: blur(80px); mix-blend-mode: multiply;
+      opacity: 0; transition: opacity 1.5s ease;
+    }
+    body.orbs-ready .hb-orb { opacity: 1; }
+
+    /* Back to top */
+    #hb-top {
+      position: fixed; bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, #5c3d2e, #c8956c);
+      border: none; color: rgba(245,235,224,0.9);
+      font-size: 18px; display: flex; align-items: center; justify-content: center;
+      cursor: none; z-index: 9999;
+      box-shadow: 0 4px 20px rgba(92,61,46,0.3);
+      opacity: 0; transform: translateY(12px) scale(0.85);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), box-shadow 0.3s;
+    }
+    #hb-top.visible { opacity: 1; transform: translateY(0) scale(1); }
+    #hb-top:hover { box-shadow: 0 8px 32px rgba(92,61,46,0.45); transform: translateY(-2px) scale(1.06); }
+
+    /* Char reveal */
+    .hero h1 .char {
+      display: inline-block;
+      animation: charIn 0.6s var(--ease-out) both;
+    }
+    @keyframes charIn {
+      from { opacity: 0; transform: translateY(20px) rotate(4deg); }
+      to   { opacity: 1; transform: translateY(0) rotate(0); }
+    }
+
+    /* Divider label reveal */
+    .section-divider.visible .divider-label {
+      animation: labelReveal 0.5s var(--ease-out) 0.2s both;
+    }
+    @keyframes labelReveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0% 0 0); }
+    }
+    .glass-card:nth-child(1) { transition-delay: 0s; }
+    .glass-card:nth-child(2) { transition-delay: 0.08s; }
+    .glass-card:nth-child(3) { transition-delay: 0.16s; }
   </style>
 </head>
 <body>
@@ -586,7 +767,7 @@
   <div class="hero">
     <div class="hero-logo-wrap">
       <div class="hero-logo-bg">
-        <img src="thumbnail.png" alt="HealthBridge">
+        <img src="https://healthbridgeus.com/assets/healthbridge-logo-new.png" alt="HealthBridge">
       </div>
     </div>
     <h1>HealthBridge</h1>
@@ -759,7 +940,6 @@
       <div class="links-row">
         <a href="https://github.com/HealthBridgeUS/HealthBridge" class="btn btn-primary" target="_blank" rel="noopener">View on GitHub</a>
         <a href="https://healthbridgeus.com" class="btn btn-ghost" target="_blank" rel="noopener">Visit HealthBridge</a>
-        <a href="https://apps.apple.com" class="btn btn-ghost" target="_blank" rel="noopener">App Store</a>
       </div>
     </div>
 
@@ -768,361 +948,6 @@
   <footer>
     <p>Congressional App Challenge &bull; <a href="../../">Back to Showcase</a></p>
   </footer>
-
-  <style>
-    * { cursor: none !important; }
-
-    #hb-cursor-dot {
-      position: fixed;
-      top: 0; left: 0;
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: #c8956c;
-      pointer-events: none;
-      z-index: 99999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease, opacity 0.2s ease, width 0.2s var(--spring), height 0.2s var(--spring), background 0.2s ease;
-      mix-blend-mode: multiply;
-    }
-
-    #hb-cursor-ring {
-      position: fixed;
-      top: 0; left: 0;
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(200, 149, 108, 0.55);
-      pointer-events: none;
-      z-index: 99998;
-      transform: translate(-50%, -50%);
-      transition: width 0.35s var(--spring), height 0.35s var(--spring), border-color 0.25s ease, opacity 0.2s ease;
-      backdrop-filter: none;
-    }
-
-    body:has(a:hover) #hb-cursor-dot,
-    body:has(button:hover) #hb-cursor-dot {
-      width: 10px; height: 10px;
-      background: #5c3d2e;
-    }
-
-    body:has(a:hover) #hb-cursor-ring,
-    body:has(button:hover) #hb-cursor-ring {
-      width: 48px; height: 48px;
-      border-color: rgba(92, 61, 46, 0.35);
-    }
-
-    .hb-click-burst {
-      position: fixed;
-      pointer-events: none;
-      z-index: 99997;
-      transform: translate(-50%, -50%);
-    }
-
-    .hb-click-burst .hb-ring {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 0; height: 0;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      border: 1.5px solid #c8956c;
-      animation: hb-burst-ring 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .hb-click-burst .hb-ring:nth-child(2) {
-      animation-delay: 0.06s;
-      border-color: rgba(200, 149, 108, 0.5);
-    }
-
-    .hb-click-burst .hb-ring:nth-child(3) {
-      animation-delay: 0.13s;
-      border-color: rgba(200, 149, 108, 0.25);
-    }
-
-    .hb-click-burst .hb-particle {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 3px; height: 3px;
-      border-radius: 50%;
-      background: #c8956c;
-      transform-origin: center;
-      animation: hb-burst-particle 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes hb-burst-ring {
-      0%   { width: 0; height: 0; opacity: 0.9; }
-      100% { width: 64px; height: 64px; opacity: 0; }
-    }
-
-    @keyframes hb-burst-particle {
-      0%   { transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(1); opacity: 1; }
-      100% { transform: translate(-50%, -50%) rotate(var(--angle)) translateX(28px) scale(0); opacity: 0; }
-    }
-  </style>
-
-  <script src="../../assets/js/nav.js" data-root="../../"></script>
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08 });
-
-    document.querySelectorAll('.glass-card, .award-glass, .links-card, .section-divider').forEach(el => {
-      observer.observe(el);
-    });
-
-    const countObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.querySelectorAll('[data-target]').forEach(el => {
-          const target = parseInt(el.dataset.target);
-          const suffix = target >= 1000 ? ',000+' : '+';
-          const display = target >= 1000 ? 3 : target;
-          let start = 0;
-          const step = display / 40;
-          const timer = setInterval(() => {
-            start = Math.min(start + step, display);
-            el.textContent = Math.floor(start) + suffix;
-            if (start >= display) clearInterval(timer);
-          }, 20);
-        });
-        countObserver.unobserve(e.target);
-      });
-    }, { threshold: 0.5 });
-
-    const statsStrip = document.querySelector('.stats-strip');
-    if (statsStrip) countObserver.observe(statsStrip);
-
-    // Custom cursor
-    const dot = document.createElement('div');
-    dot.id = 'hb-cursor-dot';
-    const ring = document.createElement('div');
-    ring.id = 'hb-cursor-ring';
-    document.body.appendChild(dot);
-    document.body.appendChild(ring);
-
-    let mx = -100, my = -100;
-    let rx = -100, ry = -100;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.left = mx + 'px';
-      dot.style.top = my + 'px';
-    });
-
-    document.addEventListener('mouseleave', () => {
-      dot.style.opacity = '0';
-      ring.style.opacity = '0';
-    });
-
-    document.addEventListener('mouseenter', () => {
-      dot.style.opacity = '1';
-      ring.style.opacity = '1';
-    });
-
-    (function lerp() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(lerp);
-    })();
-
-    // Click burst
-    document.addEventListener('click', e => {
-      const burst = document.createElement('div');
-      burst.className = 'hb-click-burst';
-      burst.style.left = e.clientX + 'px';
-      burst.style.top = e.clientY + 'px';
-
-      for (let i = 0; i < 3; i++) {
-        const r = document.createElement('div');
-        r.className = 'hb-ring';
-        burst.appendChild(r);
-      }
-
-      const count = 7;
-      for (let i = 0; i < count; i++) {
-        const p = document.createElement('div');
-        p.className = 'hb-particle';
-        p.style.setProperty('--angle', (i * (360 / count)) + 'deg');
-        burst.appendChild(p);
-      }
-
-      document.body.appendChild(burst);
-      setTimeout(() => burst.remove(), 700);
-    });
-  </script>
-
-  <!-- ── Enhanced Features ── -->
-  <style>
-    /* Scroll progress bar */
-    #hb-progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      width: 0%;
-      background: linear-gradient(90deg, #5c3d2e, #c8956c, #5c3d2e);
-      background-size: 200% 100%;
-      animation: progressShimmer 3s linear infinite;
-      z-index: 99999;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    @keyframes progressShimmer {
-      0% { background-position: 100% 0; }
-      100% { background-position: -100% 0; }
-    }
-
-    /* Grain overlay */
-    #hb-grain {
-      position: fixed;
-      inset: -50%;
-      width: 200%; height: 200%;
-      pointer-events: none;
-      z-index: 99990;
-      opacity: 0.028;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-size: 128px 128px;
-      animation: grainShift 0.08s steps(1) infinite;
-    }
-    @keyframes grainShift {
-      0%  { transform: translate(0, 0); }
-      10% { transform: translate(-2%, -3%); }
-      20% { transform: translate(3%, 1%); }
-      30% { transform: translate(-1%, 4%); }
-      40% { transform: translate(4%, -2%); }
-      50% { transform: translate(-3%, 3%); }
-      60% { transform: translate(2%, -4%); }
-      70% { transform: translate(-4%, 1%); }
-      80% { transform: translate(1%, -1%); }
-      90% { transform: translate(3%, 4%); }
-    }
-
-    /* Ambient mouse orbs */
-    .hb-orb {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      filter: blur(80px);
-      mix-blend-mode: multiply;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
-    body.orbs-ready .hb-orb { opacity: 1; }
-
-    /* Back to top */
-    #hb-top {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #5c3d2e, #c8956c);
-      border: none;
-      color: rgba(245,235,224,0.9);
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: none;
-      z-index: 9999;
-      box-shadow: 0 4px 20px rgba(92,61,46,0.3);
-      opacity: 0;
-      transform: translateY(12px) scale(0.85);
-      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), box-shadow 0.3s;
-    }
-    #hb-top.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    #hb-top:hover {
-      box-shadow: 0 8px 32px rgba(92,61,46,0.45);
-      transform: translateY(-2px) scale(1.06);
-    }
-
-    /* 3D card tilt */
-    .glass-card, .award-glass, .links-card {
-      will-change: transform;
-    }
-
-    /* Magnetic button glow */
-    .btn-primary {
-      position: relative;
-      overflow: visible;
-    }
-
-    /* Hero name char-by-char reveal */
-    .hero h1 .char {
-      display: inline-block;
-      animation: charIn 0.6s var(--ease-out) both;
-    }
-    @keyframes charIn {
-      from { opacity: 0; transform: translateY(20px) rotate(4deg); }
-      to   { opacity: 1; transform: translateY(0) rotate(0); }
-    }
-
-    /* Parallax hero logo subtle float */
-    .hero-logo-bg {
-      transition: transform 0.1s linear, box-shadow 0.4s var(--ease-out);
-    }
-
-    /* Stagger glass-card entrance */
-    .glass-card:nth-child(1) { transition-delay: 0s; }
-    .glass-card:nth-child(2) { transition-delay: 0.08s; }
-    .glass-card:nth-child(3) { transition-delay: 0.16s; }
-
-    /* Feature item hover glow */
-    .feature-item {
-      position: relative;
-      overflow: hidden;
-    }
-    .feature-item::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 14px;
-      opacity: 0;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,149,108,0.12) 0%, transparent 60%);
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .feature-item:hover::after { opacity: 1; }
-
-    /* Team member glow same */
-    .team-member {
-      position: relative;
-      overflow: hidden;
-    }
-    .team-member::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 14px;
-      opacity: 0;
-      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(200,149,108,0.15) 0%, transparent 60%);
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-    .team-member:hover::after { opacity: 1; }
-
-    /* Divider label character reveal */
-    .divider-label {
-      overflow: hidden;
-      position: relative;
-    }
-    .section-divider.visible .divider-label {
-      animation: labelReveal 0.5s var(--ease-out) 0.2s both;
-    }
-    @keyframes labelReveal {
-      from { clip-path: inset(0 100% 0 0); }
-      to   { clip-path: inset(0 0% 0 0); }
-    }
-  </style>
 
   <div id="hb-progress"></div>
   <div id="hb-grain"></div>
@@ -1143,6 +968,36 @@
     }, { passive: true });
     topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.glass-card, .award-glass, .links-card, .section-divider').forEach(el => observer.observe(el));
+
+    // Count up
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('[data-target]').forEach(el => {
+          const target = parseInt(el.dataset.target);
+          const suffix = target >= 1000 ? ',000+' : '+';
+          const display = target >= 1000 ? 3 : target;
+          let start = 0;
+          const step = display / 40;
+          const timer = setInterval(() => {
+            start = Math.min(start + step, display);
+            el.textContent = Math.floor(start) + suffix;
+            if (start >= display) clearInterval(timer);
+          }, 20);
+        });
+        countObserver.unobserve(e.target);
+      });
+    }, { threshold: 0.5 });
+    const statsStrip = document.querySelector('.stats-strip');
+    if (statsStrip) countObserver.observe(statsStrip);
+
     // Ambient orbs
     const orbData = [
       { size: 420, color: 'rgba(200,149,108,0.11)', lag: 0.04 },
@@ -1161,12 +1016,8 @@
     });
     setTimeout(() => document.body.classList.add('orbs-ready'), 800);
 
-    let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-
     // 3D card tilt
-    const tiltEls = document.querySelectorAll('.glass-card, .award-glass, .links-card');
-    tiltEls.forEach(el => {
+    document.querySelectorAll('.glass-card, .award-glass, .links-card').forEach(el => {
       el.addEventListener('mousemove', e => {
         const r = el.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width  - 0.5;
@@ -1183,7 +1034,7 @@
       });
     });
 
-    // Spotlight glow on feature-item & team-member
+    // Spotlight glow
     document.querySelectorAll('.feature-item, .team-member').forEach(el => {
       el.addEventListener('mousemove', e => {
         const r = el.getBoundingClientRect();
@@ -1210,7 +1061,7 @@
       });
     });
 
-    // Hero h1 char-by-char split
+    // Hero h1 char split
     const h1 = document.querySelector('.hero h1');
     if (h1) {
       const text = h1.textContent;
@@ -1219,26 +1070,55 @@
       ).join('');
     }
 
-    // Parallax hero logo on scroll
+    // Parallax hero logo
     const logoWrap = document.querySelector('.hero-logo-bg');
     window.addEventListener('scroll', () => {
-      if (logoWrap) {
-        const offset = window.scrollY * 0.12;
-        logoWrap.style.transform = `translateY(${-offset}px)`;
-      }
+      if (logoWrap) logoWrap.style.transform = `translateY(${-(window.scrollY * 0.12)}px)`;
     }, { passive: true });
 
-    // Main RAF loop: orbs + cursor ring lerp
+    // Custom cursor
+    const dot = document.createElement('div'); dot.id = 'hb-cursor-dot';
+    const ring = document.createElement('div'); ring.id = 'hb-cursor-ring';
+    document.body.appendChild(dot); document.body.appendChild(ring);
+
+    let mx = -100, my = -100, rx = -100, ry = -100;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    });
+    document.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+    document.addEventListener('mouseenter', () => { dot.style.opacity = '1'; ring.style.opacity = '1'; });
+
+    // Click burst
+    document.addEventListener('click', e => {
+      const burst = document.createElement('div');
+      burst.className = 'hb-click-burst';
+      burst.style.left = e.clientX + 'px';
+      burst.style.top = e.clientY + 'px';
+      for (let i = 0; i < 3; i++) { const r = document.createElement('div'); r.className = 'hb-ring'; burst.appendChild(r); }
+      for (let i = 0; i < 7; i++) {
+        const p = document.createElement('div'); p.className = 'hb-particle';
+        p.style.setProperty('--angle', (i * (360 / 7)) + 'deg');
+        burst.appendChild(p);
+      }
+      document.body.appendChild(burst);
+      setTimeout(() => burst.remove(), 700);
+    });
+
+    // Main RAF loop
     (function raf() {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
       orbs.forEach(orb => {
         const lag = parseFloat(orb.dataset.lag);
-        orb._x += (mouseX - orb._x) * lag;
-        orb._y += (mouseY - orb._y) * lag;
+        orb._x += (mx - orb._x) * lag;
+        orb._y += (my - orb._y) * lag;
         orb.style.left = (orb._x - parseFloat(orb.style.width) / 2) + 'px';
         orb.style.top  = (orb._y - parseFloat(orb.style.height) / 2) + 'px';
       });
       requestAnimationFrame(raf);
     })();
   </script>
+  <script src="../../assets/js/nav.js"></script>
 </body>
 </html>
